@@ -5,15 +5,41 @@ import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
+class Category {
+	private String category;
+	private String item;
+	
+	public Category(String category, String item) {
+		this.category = category;
+		this.item = item;
+	}
+	
+	public String getCategory() {
+		return category;
+	}
+	
+	public void setCategoty(String category) {
+		this.category = category;
+	}
+	
+	public String getItem() {
+		return item;
+	}
+	
+	public void setItem(String item) {
+		this.item = item;
+	}
+}
+
 public class Mainpage {
     public static void main(String[] args) {
         HashMap<String, String> userInfo = new HashMap<String, String>(); //유저 DB
-        ArrayList<String> catagoryList = new ArrayList<String>(); // 상품 DB
+        ArrayList<Category> categoryList = new ArrayList<Category>(); // 상품 DB
 
 
         Scanner scanner = new Scanner(System.in);
         //테스트용
-        catagoryList.add("육류");
         userInfo.put("admin", "master123");
 
         boolean checkManager = false; //관리자 로그인 확인
@@ -134,56 +160,80 @@ public class Mainpage {
 
             }//미로그인단 끝
 
-            if(loginNow) { //로그인단
-                System.out.println("Hello, "+whoIsLogin+"\n");
-                boolean loginWhile = true;
+            while(loginNow) { //로그인단
+                System.out.println("\nHello, "+whoIsLogin+"\n");
                 if(checkManager) { //매니저 여부
                     System.out.println("**** admin page ****");
                     System.out.println("Select menu");
-                    System.out.println("1. logout \n2. show shopping category \n3. add to category \n4. show item list \n5. add to item \n0. exit \n");
+                    System.out.println("1. logout \n2. show shopping category \n3. shopping management \n0. exit \n");
                 } else {
                     System.out.println("Select menu");
                     System.out.println("1.logout \n2. show shoping category \n0. exit.\n");
                 }
-                try{
-                    while(loginWhile) { // 로그인 후 반복문
+                try{             
                     	int selectLogin = 1;
                     	while(selectLogin == 1) {
 	                        int input = scanner.nextInt();
 	                        if(input == 1) { //로그아웃
 	                            System.out.println("logout...");
 	                            loginNow = false;
-	                            loginWhile = false;
 	                            break;
 	                        }            
 	                        if(input == 2) { //카테고리
 	                            System.out.println("select for category.\n");
-	                            if(catagoryList.size() == 0) {
+	                            if(categoryList.size() == 0) {
 	                                System.out.println("Oops, We don't have any item. Sorry!");
-	                                continue;
+	                                break;
 	                            }
-	                            for(int index = 0; index < catagoryList.size(); index++) {
-	                                System.out.println((index+1) +". "+ catagoryList.get(index));
+	                            int sequence = 1;	                            
+	                            for(Category category : categoryList) {
+	                                System.out.println(sequence+". "+category.getCategory());
+	                                sequence++;
 	                            }
-	                            continue;
+	                            System.out.println("Select Category number(exit = 0): ");
+	                            int choice = scanner.nextInt();
+	                            while(choice != 0) {//카테고리선택 
+	                            	
+	                            }
+	                            break;
 	                        }
 	                        if(input == 3) {
 	                            if(!checkManager) {
-	                                continue;
+	                                break;
 	                            }
-	                            System.out.println("admin only page.");
-	                        }
-	                        if(input == 4) {
-	                            if(!checkManager) {
-	                                continue;
+	                            System.out.println("\nShopping mall management");
+	                            System.out.println("\n1. add item 2. add Category 3. delete item 4. delete Category\n");
+	                            int inputAdmin = scanner.nextInt();
+	                            switch(inputAdmin) {
+		                            case 1: {
+		                            	System.out.println("1");
+		                            	break;
+		                            }
+		                            case 2: {
+		                            	System.out.println("2");
+		                            	break;
+		                            }
+		                            case 3: {
+		                            	System.out.println("3");
+		                            	break;
+		                            }
+		                            case 4: {
+		                            	System.out.println("4");
+		                            	break;
+		                            }
+		                            default: {
+		                            	System.out.println("error");
+		                            	break;
+		                            }
 	                            }
-	                            System.out.println("admin only page.");
+	                            
+	                            break; //3번 선택 종
 	                        }
 	                        if(input == 5) {
 	                        	for(String key : userInfo.keySet()) {
 	                        		System.out.println(key +" "+ userInfo.get(key));              		
 	                        	}
-	                        	continue;
+	                        	break;
 	                        }
 
 	                        if(input == 0) { //프로그램 종료 (현재 작동 안함!!)
@@ -191,14 +241,14 @@ public class Mainpage {
 	                            System.exit(page);
 	                            break;
 	                        }
+	                        
+	                        break; //엉뚱한 숫자 입력 
                     	}
-                    } //로그인 반복문 종료
-
                 } catch(InputMismatchException e) {
                     System.out.println("please write number.");
                     scanner = new Scanner(System.in);
                 }
-            }
+            }//로그인 종
         }//메인 반복문 종료
         System.out.println("Good Bye.");
         scanner.close();
