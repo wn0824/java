@@ -34,7 +34,11 @@ public class Category {
 	}
 	
 	public void addItem(String name) {
-		item.add(name);
-		System.out.println("Success add item");
+		if(!item.contains(name)) {
+			item.add(name);
+			System.out.println("Success add item");			
+		} else {
+			System.out.println("Duplicate");
+		}	
 	}
 }

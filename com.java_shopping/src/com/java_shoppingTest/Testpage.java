@@ -81,6 +81,31 @@ public class Testpage {
 				
 				test++;
 			}
+			
+			while(test == 4) {
+				System.out.println("add item.");
+				System.out.println("item category? : ");
+				boolean checkingTest = false;
+				String writeCategory = scan.nextLine();
+				
+				for(Category check : categoryData) {
+					String chkcat = check.getCategory();
+					if(writeCategory.equals(chkcat)) {
+						checkingTest = true;
+						System.out.println("add item name");
+						String wirteItemName = scan.nextLine();
+						check.addItem(wirteItemName);
+						check.showItem();
+					}
+				}
+				
+				if(checkingTest) {
+					System.out.println("Success");
+					test++;
+				} else {
+					System.out.println("fail");
+				}
+			}
 			playTest++;
 		}
 		scan.close();
